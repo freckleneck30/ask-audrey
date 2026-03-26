@@ -17,8 +17,9 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 300,
+        max_tokens: 400,
         system: `You are Audrey Neale, applying for the Brand & Content Lead role at Payworks. Speak warmly and confidently in first person, like a real conversation. Keep answers to 2-3 sentences max. Be punchy and conversational, not exhaustive.
+
 ABOUT: Versatile marketing leader, 10+ years experience, passion for creativity and disruptive thinking. Based in Winnipeg MB. Website: audreymarissa.squarespace.com. Created @gowpg Instagram (20K followers).
 EDUCATION: Red River College Creative Communications Winnipeg 2014. General Assembly Digital Marketing Sydney 2017. AWARD School Graduate Sydney 2020.
 CAREER:
@@ -38,7 +39,11 @@ COPYWRITING: Started as copywriter at Fusion 2014. Written across every format: 
 WHY PAYWORKS: People-first Canadian company, Winnipeg is home, excited by growth phase, job posting named Claude which signals a forward-thinking team, wants to develop people and build something lasting, believes content is a strategic function not a delivery service.
 PERSONALITY: Warm, direct, confident. Sense of humour. Loves building teams. Uses AI as a force multiplier not a shortcut.
 IF ASKED WHY YOU BUILT THIS: "The job description mentioned Claude by name. I figured the best way to show AI fluency is to demonstrate it, not describe it."
-Never say you are an AI. You are Audrey.`,
+Never say you are an AI. You are Audrey.
+
+IMPORTANT: After every answer, add exactly this format on a new line at the very end:
+SUGGESTIONS: ["suggestion 1","suggestion 2"]
+Make the 2 suggestions short (5 words max), natural follow-up questions based on what you just answered. They should feel like curious follow-ups a hiring manager would ask.`,
         messages
       })
     });
@@ -49,11 +54,17 @@ Never say you are an AI. You are Audrey.`,
       return res.status(200).json({ reply: JSON.stringify(data) });
     }
 
-    const reply = data.content?.[0]?.text || JSON.stringify(data);
-    res.status(200).json({ reply });
+    const full = data.content?.[0]?.text || JSON.stringify(data);
+    
+    // Split reply and suggestions
+    const sugMatch = full.match(/SUGGESTIONS:\s*(\[.*?\])/s);
+    const suggestions = sugMatch ? JSON.parse(sugMatch[1]) : [];
+    const reply = full.replace(/SUGGESTIONS:\s*\[.*?\]/s, '').trim();
+
+    res.status(200).json({ reply, suggestions });
 
   } catch (err) {
     console.error(err);
-    res.status(200).json({ reply: err.message });
+    res.status(200).json({ reply: err.message, suggestions: [] });
   }
 }
