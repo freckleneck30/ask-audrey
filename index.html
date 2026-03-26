@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ask Audrey</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Helvetica, Arial, sans-serif; background: #fff; color: #000; height: 100vh; display: flex; justify-content: center; align-items: stretch; }
+  .shell { display: flex; flex-direction: column; width: 100%; max-width: 520px; border-left: 1.5px solid #000; border-right: 1.5px solid #000; }
+  .hdr { padding: 20px 24px; border-bottom: 1.5px solid #000; display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  .av { width: 40px; height: 40px; border-radius: 50%; background: #F089C1; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .hdr-nm { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .hdr-sb { font-size: 11px; color: #999; margin-top: 3px; }
+  .online { margin-left: auto; display: flex; align-items: center; gap: 5px; font-size: 11px; color: #bbb; flex-shrink: 0; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: #F089C1; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .msgs { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+  .msg { display: flex; gap: 10px; }
+  .msg.user { flex-direction: row-reverse; }
+  .mav { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; margin-top: 1px; }
+  .mav.a { background: #F089C1; color: #fff; font-size: 13px; }
+  .mav.u { background: #000; color: #fff; }
+  .bub { font-size: 13.5px; line-height: 1.7; color: #000; max-width: 380px; }
+  .msg.audrey .bub { background: #fafafa; border: 1px solid #e8e8e8; border-radius: 0 14px 14px 14px; padding: 12px 16px; }
+  .msg.user .bub { background: #000; color: #fff; border-radius: 14px 0 14px 14px; padding: 12px 16px; }
+  .bub p { margin-bottom: 8px; } .bub p:last-child { margin-bottom: 0; }
+  .sugs { padding: 0 24px 16px; display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
+  .sug { padding: 9px 14px; border: 1px solid #ddd; background: #fff; color: #333; font-size: 12px; cursor: pointer; font-family: Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; }
+  .sug:hover { border-color: #F089C1; color: #F089C1; }
+  .divider { height: 1.5px; background: #000; flex-shrink: 0; }
+  .inp-wrap { padding: 16px 24px; display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0; }
+  textarea { flex: 1; border: 1px solid #ccc; padding: 10px 13px; font-size: 13px; resize: none; background: #fff; color: #000; outline: none; font-family: Helvetica, Arial, sans-serif; line-height: 1.5; height: 40px; border-radius: 0; transition: border-color 0.15s; }
+  textarea:focus { border-color: #F089C1; }
+  textarea::placeholder { color: #ccc; }
+  .sbtn { width: 40px; height: 40px; background: #F089C1; border: none; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.15s; }
+  .sbtn:hover { opacity: 0.8; } .sbtn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .pwrd { padding: 0 24px 14px; font-size: 10px; color: #ccc; }
+  .tdots { display: flex; gap: 4px; align-items: center; height: 20px; }
+  .tdots span { width: 5px; height: 5px; border-radius: 50%; background: #F089C1; animation: bl 1.2s infinite; }
+  .tdots span:nth-child(2) { animation-delay: 0.2s; }
+  .tdots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bl { 0%,100%{opacity:0.2;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hdr">
+    <div class="av">A</div>
+    <div>
+      <div class="hdr-nm">Audrey Neale</div>
+      <div class="hdr-sb">Brand &amp; Content Lead — Payworks candidate</div>
+    </div>
+    <div class="online"><div class="dot"></div>available</div>
+  </div>
+  <div class="msgs" id="msgs">
+    <div class="msg audrey">
+      <div class="mav a">A</div>
+      <div class="bub"><p>Hi! I built this so you could skip the formalities and just ask me what you actually want to know.</p><p>What would you like to know?</p></div>
+    </div>
+  </div>
+  <div class="sugs" id="sugs">
+    <button class="sug" onclick="pick(this)">Why Payworks?</button>
+    <button class="sug" onclick="pick(this)">How do you use AI in your work?</button>
+    <button class="sug" onclick="pick(this)">Tell me about your copywriting experience</button>
+    <button class="sug" onclick="pick(this)">What's your leadership style?</button>
+    <button class="sug" onclick="pick(this)">What makes you different?</button>
+  </div>
+  <div class="divider"></div>
+  <div class="inp-wrap">
+    <textarea id="inp" placeholder="Ask me anything..." onkeydown="kd(event)" oninput="rsz(this)"></textarea>
+    <button class="sbtn" id="sbtn" onclick="go()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <div class="pwrd">Powered by Claude · Built by Audrey to show what AI fluency actually looks like</div>
+</div>
+<script>
+let hist=[], busy=false;
+function rsz(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
+function kd(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}}
+function pick(btn){document.getElementById('inp').value=btn.textContent;document.getElementById('sugs').style.display='none';go();}
+function addMsg(role,text){
+  const c=document.getElementById('msgs');
+  const w=document.createElement('div');w.className='msg '+(role==='user'?'user':'audrey');
+  const a=document.createElement('div');a.className='mav '+(role==='user'?'u':'a');a.textContent=role==='user'?'you':'A';
+  const b=document.createElement('div');b.className='bub';
+  if(role==='assistant'){b.innerHTML=text.split('\n\n').filter(p=>p.trim()).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('');}
+  else{b.textContent=text;}
+  w.appendChild(a);w.appendChild(b);c.appendChild(w);c.scrollTop=c.scrollHeight;
+}
+function showTyping(){
+  const c=document.getElementById('msgs');
+  const w=document.createElement('div');w.className='msg audrey';w.id='typ';
+  const a=document.createElement('div');a.className='mav a';a.textContent='A';
+  const b=document.createElement('div');b.className='bub';
+  b.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';
+  w.appendChild(a);w.appendChild(b);c.appendChild(w);c.scrollTop=c.scrollHeight;
+}
+async function go(){
+  if(busy)return;
+  const inp=document.getElementById('inp');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';inp.style.height='auto';
+  document.getElementById('sugs').style.display='none';
+  busy=true;document.getElementById('sbtn').disabled=true;
+  addMsg('user',txt);hist.push({role:'user',content:txt});
+  showTyping();
+  try{
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist})});
+    const d=await r.json();
+    document.getElementById('typ')?.remove();
+    const rep=d.reply||'Something went wrong — try again!';
+    addMsg('assistant',rep);hist.push({role:'assistant',content:rep});
+  }catch(e){
+    document.getElementById('typ')?.remove();
+    addMsg('assistant','Something went wrong — try again!');
+  }
+  busy=false;document.getElementById('sbtn').disabled=false;
+}
+</script>
+</body>
+</html>
