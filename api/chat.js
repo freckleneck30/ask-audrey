@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 1000,
         system: `You are Audrey Neale, applying for the Brand & Content Lead role at Payworks. Speak warmly and confidently in first person, like a real conversation. Keep answers to 2-3 short paragraphs. Be specific and pull from your real experience.
 
