@@ -15,28 +15,28 @@
   .online { margin-left: auto; display: flex; align-items: center; gap: 5px; font-size: 11px; color: #bbb; flex-shrink: 0; }
   .dot { width: 5px; height: 5px; border-radius: 50%; background: #F089C1; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .msgs { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+  .msgs { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
   .msg { display: flex; gap: 10px; }
   .msg.user { flex-direction: row-reverse; }
   .mav { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; margin-top: 1px; object-fit: cover; }
   .mav.a { background: #F089C1; color: #fff; font-size: 13px; }
   .mav.u { background: #000; color: #fff; }
   .bub { font-size: 13.5px; line-height: 1.7; color: #000; max-width: 380px; }
-  .msg.audrey .bub { background: #fafafa; border: 1px solid #e8e8e8; border-radius: 0 14px 14px 14px; padding: 12px 16px; }
-  .msg.user .bub { background: #000; color: #fff; border-radius: 14px 0 14px 14px; padding: 12px 16px; }
+  .msg.audrey .bub { background: #f5f5f5; border-radius: 0 18px 18px 18px; padding: 12px 16px; }
+  .msg.user .bub { background: #000; color: #fff; border-radius: 18px 0 18px 18px; padding: 12px 16px; }
   .bub p { margin-bottom: 8px; } .bub p:last-child { margin-bottom: 0; }
+  .inline-sugs { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; margin-top: 8px; padding-left: 38px; }
+  .inline-sug { padding: 7px 14px; border: 1.5px solid #F089C1; background: #fff; color: #F089C1; font-size: 12px; cursor: pointer; font-family: Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; border-radius: 20px; }
+  .inline-sug:hover { background: #F089C1; color: #fff; }
   .sugs { padding: 0 24px 16px; display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
-  .sug { padding: 9px 14px; border: 1px solid #ddd; background: #fff; color: #333; font-size: 12px; cursor: pointer; font-family: Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; }
-  .sug:hover { border-color: #F089C1; color: #F089C1; }
-  .inline-sugs { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; padding-left: 38px; }
-  .inline-sug { padding: 7px 12px; border: 1px solid #ddd; background: #fff; color: #333; font-size: 11.5px; cursor: pointer; font-family: Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; width: fit-content; }
-  .inline-sug:hover { border-color: #F089C1; color: #F089C1; }
+  .sug { padding: 9px 14px; border: 1.5px solid #F089C1; background: #fff; color: #F089C1; font-size: 12px; cursor: pointer; font-family: Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; border-radius: 20px; }
+  .sug:hover { background: #F089C1; color: #fff; }
   .divider { height: 1.5px; background: #000; flex-shrink: 0; }
   .inp-wrap { padding: 16px 24px; display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0; }
-  textarea { flex: 1; border: 1px solid #ccc; padding: 10px 13px; font-size: 13px; resize: none; background: #fff; color: #000; outline: none; font-family: Helvetica, Arial, sans-serif; line-height: 1.5; height: 40px; border-radius: 0; transition: border-color 0.15s; }
+  textarea { flex: 1; border: 1px solid #ccc; padding: 10px 13px; font-size: 13px; resize: none; background: #fff; color: #000; outline: none; font-family: Helvetica, Arial, sans-serif; line-height: 1.5; height: 40px; border-radius: 20px; transition: border-color 0.15s; }
   textarea:focus { border-color: #F089C1; }
   textarea::placeholder { color: #ccc; }
-  .sbtn { width: 40px; height: 40px; background: #F089C1; border: none; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.15s; }
+  .sbtn { width: 40px; height: 40px; background: #F089C1; border: none; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.15s; border-radius: 50%; }
   .sbtn:hover { opacity: 0.8; } .sbtn:disabled { opacity: 0.3; cursor: not-allowed; }
   .pwrd { padding: 0 24px 14px; font-size: 10px; color: #ccc; }
   .tdots { display: flex; gap: 4px; align-items: center; height: 20px; }
@@ -95,19 +95,23 @@ function addMsg(role, text, suggestions=[]){
   const b=document.createElement('div');b.className='bub';
   if(role==='assistant'){
     b.innerHTML=text.split('\n\n').filter(p=>p.trim()).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
-    if(suggestions.length){
-      const sd=document.createElement('div');sd.className='inline-sugs';
-      suggestions.forEach(s=>{
-        const btn=document.createElement('button');btn.className='inline-sug';btn.textContent=s;
-        btn.onclick=()=>{ document.getElementById('inp').value=s; go(); };
-        sd.appendChild(btn);
-      });
-      b.appendChild(sd);
-    }
   } else {
     b.textContent=text;
   }
-  w.appendChild(a);w.appendChild(b);c.appendChild(w);c.scrollTop=c.scrollHeight;
+  w.appendChild(a);w.appendChild(b);c.appendChild(w);
+
+  // Add suggestions outside the bubble
+  if(role==='assistant' && suggestions.length){
+    const sd=document.createElement('div');sd.className='inline-sugs';
+    suggestions.forEach(s=>{
+      const btn=document.createElement('button');btn.className='inline-sug';btn.textContent=s;
+      btn.onclick=()=>{ document.getElementById('inp').value=s; go(); };
+      sd.appendChild(btn);
+    });
+    c.appendChild(sd);
+  }
+
+  c.scrollTop=c.scrollHeight;
 }
 function showTyping(){
   const c=document.getElementById('msgs');
