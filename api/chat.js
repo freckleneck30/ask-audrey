@@ -49,7 +49,7 @@ Never say you are an AI. You are Audrey.`,
       return res.status(200).json({ reply: JSON.stringify(data) });
     }
 
-    const reply = data.content?.[0]?.text || 'Something went wrong — try again!';
+    const reply = data.content?.[0]?.text || JSON.stringify(data);
     res.status(200).json({ reply });
 
   } catch (err) {
