@@ -8,82 +8,118 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Public Sans', Helvetica, Arial, sans-serif; background: #F0F0EB; color: #000; height: 100vh; display: flex; justify-content: center; align-items: stretch; }
-  .shell { display: flex; flex-direction: column; width: 100%; max-width: 520px; background: #fff; }
-  .hdr { padding: 20px 24px; border-bottom: 1.5px solid #000; display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
-  .av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-  .hdr-nm { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
-  .hdr-sb { font-size: 11px; color: #999; margin-top: 3px; }
-  .online { margin-left: auto; display: flex; align-items: center; gap: 5px; font-size: 11px; color: #bbb; flex-shrink: 0; }
-  .dot { width: 5px; height: 5px; border-radius: 50%; background: #F089C1; animation: pulse 2s infinite; }
+  .shell { display: flex; flex-direction: column; width: 100%; max-width: 520px; background: #F8FAFC; }
+
+  /* HEADER — frosted glass */
+  .hdr { padding: 14px 20px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 12px; flex-shrink: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 20px -10px rgba(0,0,0,0.06); }
+  .av-wrap { position: relative; flex-shrink: 0; }
+  .av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .av-online { position: absolute; bottom: 0; right: 0; width: 11px; height: 11px; background: #22c55e; border: 2px solid #fff; border-radius: 50%; }
+  .hdr-nm { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #111; }
+  .hdr-sb { font-size: 11px; color: #999; margin-top: 2px; }
+  .online { margin-left: auto; display: flex; align-items: center; gap: 5px; font-size: 10px; color: #aaa; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .msgs { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
-  .msg { display: flex; gap: 10px; }
+
+  /* MESSAGES */
+  .msgs { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .msgs::-webkit-scrollbar { width: 4px; }
+  .msgs::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+
+  .date-sep { display: flex; justify-content: center; margin: 4px 0 8px; }
+  .date-sep span { font-size: 10px; font-weight: 500; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(0,0,0,0.05); padding: 3px 12px; border-radius: 100px; }
+
+  .msg { display: flex; gap: 10px; animation: fadeIn 0.3s ease-out; }
   .msg.user { flex-direction: row-reverse; }
-  .mav { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; object-fit: cover; }
-  .mav.u { background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
-  .bub { font-size: 13.5px; line-height: 1.7; color: #000; max-width: 380px; font-family: 'Public Sans', Helvetica, Arial, sans-serif; }
-  .msg.audrey .bub { background: #f5f5f5; border-radius: 0 18px 18px 18px; padding: 12px 16px; }
-  .msg.user .bub { background: #000; color: #fff; border-radius: 18px 0 18px 18px; padding: 12px 16px; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  .mav { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; margin-top: 1px; object-fit: cover; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .mav.u { background: #1a1a1a; color: #fff; font-size: 8px; letter-spacing: 0.05em; }
+
+  .bub { font-size: 14px; line-height: 1.65; max-width: 360px; }
+  .msg.audrey .bub { background: #fff; border: 1px solid #f0f0f0; border-radius: 18px 18px 18px 4px; padding: 12px 16px; color: #374151; box-shadow: 0 2px 10px -4px rgba(0,0,0,0.06); }
+  .msg.user .bub { background: #111; color: #fff; border-radius: 18px 18px 4px 18px; padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
   .bub p { margin-bottom: 8px; } .bub p:last-child { margin-bottom: 0; }
-  .inline-sugs { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; margin-top: 8px; padding-left: 38px; }
-  .inline-sug { padding: 7px 14px; border: 1.5px solid #000; background: #fff; color: #000; font-size: 12px; cursor: pointer; font-family: 'Public Sans', Helvetica, Arial, sans-serif; transition: all 0.15s; border-radius: 20px; }
-  .inline-sug:hover { background: #000; color: #fff; }
-  .sugs { padding: 0 24px 16px; display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
-  .sug { padding: 9px 14px; border: 1.5px solid #000; background: #fff; color: #000; font-size: 12px; cursor: pointer; font-family: 'Public Sans', Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; border-radius: 20px; }
-  .sug:hover { background: #000; color: #fff; }
-  .divider { height: 1.5px; background: #000; flex-shrink: 0; }
-  .inp-wrap { padding: 16px 24px; display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0; }
-  textarea { flex: 1; border: 1px solid #ccc; padding: 10px 13px; font-size: 13px; resize: none; background: #fff; color: #000; outline: none; font-family: 'Public Sans', Helvetica, Arial, sans-serif; line-height: 1.5; height: 40px; border-radius: 20px; transition: border-color 0.15s; }
-  textarea:focus { border-color: #000; }
-  textarea::placeholder { color: #ccc; }
-  .sbtn { width: 40px; height: 40px; background: #000; border: none; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.15s; border-radius: 50%; }
-  .sbtn:hover { opacity: 0.7; } .sbtn:disabled { opacity: 0.3; cursor: not-allowed; }
-  .pwrd { padding: 0 24px 14px; font-size: 10px; color: #ccc; font-family: 'Public Sans', Helvetica, Arial, sans-serif; }
-  .tdots { display: flex; gap: 4px; align-items: center; height: 20px; }
-  .tdots span { width: 5px; height: 5px; border-radius: 50%; background: #000; animation: bl 1.2s infinite; }
-  .tdots span:nth-child(2) { animation-delay: 0.2s; }
-  .tdots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes bl { 0%,100%{opacity:0.2;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
+
+  /* SUGGESTIONS */
+  .inline-sugs { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; padding-left: 38px; }
+  .inline-sug { padding: 6px 14px; border: 1px solid #e2e8f0; background: #fff; color: #555; font-size: 12px; cursor: pointer; font-family: 'Public Sans', sans-serif; transition: all 0.15s; border-radius: 100px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .inline-sug:hover { background: #111; border-color: #111; color: #fff; }
+
+  .sugs { padding: 0 20px 14px; display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
+  .sug { padding: 10px 16px; border: 1px solid #e2e8f0; background: #fff; color: #444; font-size: 12.5px; cursor: pointer; font-family: 'Public Sans', sans-serif; text-align: left; transition: all 0.15s; border-radius: 100px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .sug:hover { background: #111; border-color: #111; color: #fff; }
+
+  /* TYPING DOTS */
+  .tdots { display: flex; gap: 4px; align-items: center; padding: 4px 2px; }
+  .tdots span { width: 6px; height: 6px; border-radius: 50%; background: #d1d5db; animation: bl 1.2s infinite; }
+  .tdots span:nth-child(2) { animation-delay: 0.15s; }
+  .tdots span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bl { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
+
+  /* INPUT */
+  .inp-outer { background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); border-top: 1px solid #f0f0f0; padding: 12px 20px 16px; flex-shrink: 0; box-shadow: 0 -10px 30px -10px rgba(0,0,0,0.04); }
+  .inp-wrap { position: relative; display: flex; align-items: center; }
+  textarea { width: 100%; border: 1px solid #e2e8f0; padding: 12px 52px 12px 18px; font-size: 13.5px; resize: none; background: #f8fafc; color: #111; outline: none; font-family: 'Public Sans', sans-serif; line-height: 1.4; height: 46px; border-radius: 100px; transition: all 0.15s; box-shadow: inset 0 1px 4px rgba(0,0,0,0.04); }
+  textarea:focus { border-color: #ccc; background: #fff; }
+  textarea::placeholder { color: #bbb; }
+  .sbtn { position: absolute; right: 6px; width: 34px; height: 34px; background: #111; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; border-radius: 50%; }
+  .sbtn:hover { background: #000; transform: scale(1.05); }
+  .sbtn:active { transform: scale(0.95); }
+  .sbtn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .pwrd { text-align: center; margin-top: 10px; font-size: 10px; color: #bbb; letter-spacing: 0.04em; }
 </style>
 </head>
 <body>
 <div class="shell">
   <div class="hdr">
-    <img class="av" src="/chatface.png">
+    <div class="av-wrap">
+      <img class="av" src="/chatface.png" onerror="this.style.display='none'">
+      <div class="av-online"></div>
+    </div>
     <div>
       <div class="hdr-nm">Audrey Neale 🦄</div>
       <div class="hdr-sb">Brand &amp; Content Lead — Payworks candidate</div>
     </div>
-    <div class="online"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;margin-right:4px;"></span>available</div>
+    <div class="online"><div class="dot"></div>available</div>
   </div>
+
   <div class="msgs" id="msgs">
+    <div class="date-sep"><span>Today</span></div>
     <div class="msg audrey">
-      <img class="mav" src="/chatface.png">
+      <img class="mav" src="/chatface.png" onerror="this.style.background='#F089C1';this.style.display='flex'">
       <div class="bub"><p>Hi! I built this so you could skip the formalities and just ask me what you actually want to know.</p><p>What would you like to know?</p></div>
     </div>
   </div>
+
   <div class="sugs" id="sugs">
     <button class="sug" onclick="pick(this)">Why Payworks?</button>
     <button class="sug" onclick="pick(this)">How do you use AI in your work?</button>
     <button class="sug" onclick="pick(this)">Tell me about your copywriting experience</button>
     <button class="sug" onclick="pick(this)">What's your leadership style?</button>
-    <button class="sug" onclick="pick(this)">What makes you different?</button>
+    <button class="sug" onclick="pick(this)">What do you do on day one?</button>
   </div>
-  <div class="divider"></div>
-  <div class="inp-wrap">
-    <textarea id="inp" placeholder="Ask me anything..." onkeydown="kd(event)" oninput="rsz(this)"></textarea>
-    <button class="sbtn" id="sbtn" onclick="go()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
+
+  <div class="inp-outer">
+    <div class="inp-wrap">
+      <textarea id="inp" placeholder="Ask me anything..." onkeydown="kd(event)" oninput="rsz(this)"></textarea>
+      <button class="sbtn" id="sbtn" onclick="go()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="15" height="15">
+          <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="pwrd">Powered by Claude · Built by Audrey to demonstrate AI fluency</div>
   </div>
-  <div class="pwrd">Powered by Claude · Built by Audrey to demonstrate AI fluency</div>
 </div>
+
 <script>
 let hist=[], busy=false;
 function rsz(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
 function kd(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}}
 function pick(btn){document.getElementById('inp').value=btn.textContent;document.getElementById('sugs').style.display='none';go();}
-function addMsg(role,text,suggestions=[]){
+
+function addMsg(role,text,sugs=[]){
   const c=document.getElementById('msgs');
   const w=document.createElement('div');w.className='msg '+(role==='user'?'user':'audrey');
   let a;
@@ -95,29 +131,25 @@ function addMsg(role,text,suggestions=[]){
   const b=document.createElement('div');b.className='bub';
   if(role==='assistant'){
     b.innerHTML=text.split('\n\n').filter(p=>p.trim()).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
-  } else {
-    b.textContent=text;
-  }
+  } else { b.textContent=text; }
   w.appendChild(a);w.appendChild(b);c.appendChild(w);
-  if(role==='assistant'&&suggestions.length){
+  if(role==='assistant'&&sugs.length){
     const sd=document.createElement('div');sd.className='inline-sugs';
-    suggestions.forEach(s=>{
-      const btn=document.createElement('button');btn.className='inline-sug';btn.textContent=s;
-      btn.onclick=()=>{document.getElementById('inp').value=s;go();};
-      sd.appendChild(btn);
-    });
+    sugs.forEach(s=>{const btn=document.createElement('button');btn.className='inline-sug';btn.textContent=s;btn.onclick=()=>{document.getElementById('inp').value=s;go();};sd.appendChild(btn);});
     c.appendChild(sd);
   }
   c.scrollTop=c.scrollHeight;
 }
+
 function showTyping(){
   const c=document.getElementById('msgs');
   const w=document.createElement('div');w.className='msg audrey';w.id='typ';
-  const a=document.createElement('img');a.className='mav';a.src='/chatface.png';
+  let a=document.createElement('img');a.className='mav';a.src='/chatface.png';
   const b=document.createElement('div');b.className='bub';
   b.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';
   w.appendChild(a);w.appendChild(b);c.appendChild(w);c.scrollTop=c.scrollHeight;
 }
+
 async function go(){
   if(busy)return;
   const inp=document.getElementById('inp');
