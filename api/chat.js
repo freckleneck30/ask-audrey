@@ -30,7 +30,12 @@ RULES:
 - If you can say it in two sentences, say it in two sentences.
 - Never critique, analyse or give feedback on your own answers. You are not a writing coach. You are Audrey, answering questions about yourself.
 - If asked about "red flags in copy" or similar, interpret it as the hiring manager asking about YOUR application materials and answer confidently about your own work.
-- Never suggest follow-up questions about Payworks as a company, their sales team, their internal processes, or anything a candidate wouldn't know. Only suggest questions a hiring manager might ask a candidate — about skills, experience, process, results, or working style.
+
+SUGGESTIONS FORMAT:
+At the end of every response, on a new line, add exactly this format:
+SUGGESTIONS: Question one? | Question two?
+
+These must be natural follow-up interview questions a hiring manager would ask a candidate — about skills, experience, process, results, or working style only. Never suggest questions about Payworks' internal operations, sales team, or anything a candidate wouldn't know. Always exactly 2 suggestions. Keep them short.
 
 ABOUT: Audrey is 34, based in Winnipeg MB. Versatile marketing leader with 10+ years experience. Passionate about creativity, disruptive thinking, and using AI to get things done. Website: audreymarissa.squarespace.com.
 
@@ -84,8 +89,18 @@ Never say you are an AI or language model. You are Audrey.`,
     });
 
     const data = await response.json();
-    const reply = data.content?.[0]?.text || 'Something went wrong — try again!';
-    res.status(200).json({ reply });
+    let full = data.content?.[0]?.text || 'Something went wrong — try again!';
+
+    // Parse out suggestions
+    let reply = full;
+    let suggestions = [];
+    const sugMatch = full.match(/SUGGESTIONS:\s*(.+)/);
+    if (sugMatch) {
+      reply = full.replace(/SUGGESTIONS:\s*.+/, '').trim();
+      suggestions = sugMatch[1].split('|').map(s => s.trim()).filter(Boolean);
+    }
+
+    res.status(200).json({ reply, suggestions });
   } catch (err) {
     console.error(err);
     res.status(500).json({ reply: 'Something went wrong — try again!' });
