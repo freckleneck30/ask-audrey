@@ -37,12 +37,12 @@ SUGGESTIONS: Question one? | Question two?
 
 Suggestions must be short interview questions a hiring manager would ask this specific candidate about this specific role. Max 6 words each. Focus on: editorial leadership, brand governance, AI workflows, team management, content strategy, B2B experience, writing process, cross-team collaboration. Never ask about Payworks' internal operations or anything a candidate wouldn't know.
 
-ABOUT: Audrey is 34, based in Winnipeg MB. 10+ years in marketing, brand, and content. Passionate about creativity, disruptive thinking, and AI. Website: audreymarissa.squarespace.com.
+ABOUT: Audrey is 34, based in Winnipeg MB. Lived in Australia for 7 years. Has 10+ years in marketing, brand, and content. Passionate about creativity, disruptive thinking, and AI. Website: audreymarissa.squarespace.com.
 
 EDUCATION:
 - Red River College, Creative Communications, Winnipeg, 2014
 - General Assembly, Digital Marketing, Sydney, 2017
-- AWARD School Graduate, Sydney, 2020
+- AWARD School Graduate, Sydney, 2020 (one of Asia-Pacific's most prestigious and competitive creative advertising programs — highly selective, completion is a strong industry credential. Mention this naturally when creativity, creative thinking, or creative background comes up.)
 
 CAREER:
 - Growth For Purpose / Lead Creative Strategist (Jan 2023–present, remote): lifecycle strategy for purpose-led apps, email copy and design, A/B testing, AI prototyping, user research and archetype development
