@@ -4,43 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ask Audrey</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Helvetica, Arial, sans-serif; background: #fff; color: #000; height: 100vh; display: flex; justify-content: center; align-items: stretch; }
-  .shell { display: flex; flex-direction: column; width: 100%; max-width: 520px; border-left: 1.5px solid #000; border-right: 1.5px solid #000; }
+  body { font-family: 'Public Sans', Helvetica, Arial, sans-serif; background: #F0F0EB; color: #000; height: 100vh; display: flex; justify-content: center; align-items: stretch; }
+  .shell { display: flex; flex-direction: column; width: 100%; max-width: 520px; background: #fff; }
   .hdr { padding: 20px 24px; border-bottom: 1.5px solid #000; display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
   .av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
   .hdr-nm { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
   .hdr-sb { font-size: 11px; color: #999; margin-top: 3px; }
   .online { margin-left: auto; display: flex; align-items: center; gap: 5px; font-size: 11px; color: #bbb; flex-shrink: 0; }
-  .dot { width: 5px; height: 5px; border-radius: 50%; background: #000000; animation: pulse 2s infinite; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: #F089C1; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
   .msgs { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
   .msg { display: flex; gap: 10px; }
   .msg.user { flex-direction: row-reverse; }
-  .mav { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; margin-top: 1px; object-fit: cover; }
-  .mav.a { background: #000000; color: #fff; font-size: 13px; }
-  .mav.u { background: #000; color: #fff; }
-  .bub { font-size: 13.5px; line-height: 1.7; color: #000; max-width: 380px; }
+  .mav { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; object-fit: cover; }
+  .mav.u { background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+  .bub { font-size: 13.5px; line-height: 1.7; color: #000; max-width: 380px; font-family: 'Public Sans', Helvetica, Arial, sans-serif; }
   .msg.audrey .bub { background: #f5f5f5; border-radius: 0 18px 18px 18px; padding: 12px 16px; }
   .msg.user .bub { background: #000; color: #fff; border-radius: 18px 0 18px 18px; padding: 12px 16px; }
   .bub p { margin-bottom: 8px; } .bub p:last-child { margin-bottom: 0; }
   .inline-sugs { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; margin-top: 8px; padding-left: 38px; }
-  .inline-sug { padding: 7px 14px; border: 1.5px solid #000; background: #fff; color: #000; font-size: 12px; cursor: pointer; font-family: Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; border-radius: 20px; }
-  .inline-sug:hover { background: #000000; color: #fff; }
+  .inline-sug { padding: 7px 14px; border: 1.5px solid #000; background: #fff; color: #000; font-size: 12px; cursor: pointer; font-family: 'Public Sans', Helvetica, Arial, sans-serif; transition: all 0.15s; border-radius: 20px; }
+  .inline-sug:hover { background: #000; color: #fff; }
   .sugs { padding: 0 24px 16px; display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
-  .sug { padding: 9px 14px; border: 1.5px solid #000000; background: #fff; color: #000000; font-size: 12px; cursor: pointer; font-family: Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; border-radius: 20px; }
-  .sug:hover { background: #000000; color: #fff; }
+  .sug { padding: 9px 14px; border: 1.5px solid #000; background: #fff; color: #000; font-size: 12px; cursor: pointer; font-family: 'Public Sans', Helvetica, Arial, sans-serif; text-align: left; transition: all 0.15s; border-radius: 20px; }
+  .sug:hover { background: #000; color: #fff; }
   .divider { height: 1.5px; background: #000; flex-shrink: 0; }
   .inp-wrap { padding: 16px 24px; display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0; }
-  textarea { flex: 1; border: 1px solid #ccc; padding: 10px 13px; font-size: 13px; resize: none; background: #fff; color: #000; outline: none; font-family: Helvetica, Arial, sans-serif; line-height: 1.5; height: 40px; border-radius: 20px; transition: border-color 0.15s; }
-  textarea:focus { border-color: #000000; }
+  textarea { flex: 1; border: 1px solid #ccc; padding: 10px 13px; font-size: 13px; resize: none; background: #fff; color: #000; outline: none; font-family: 'Public Sans', Helvetica, Arial, sans-serif; line-height: 1.5; height: 40px; border-radius: 20px; transition: border-color 0.15s; }
+  textarea:focus { border-color: #000; }
   textarea::placeholder { color: #ccc; }
-  .sbtn { width: 40px; height: 40px; background: #000000; border: none; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.15s; border-radius: 50%; }
-  .sbtn:hover { opacity: 0.8; } .sbtn:disabled { opacity: 0.3; cursor: not-allowed; }
-  .pwrd { padding: 0 24px 14px; font-size: 10px; color: #ccc; }
+  .sbtn { width: 40px; height: 40px; background: #000; border: none; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.15s; border-radius: 50%; }
+  .sbtn:hover { opacity: 0.7; } .sbtn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .pwrd { padding: 0 24px 14px; font-size: 10px; color: #ccc; font-family: 'Public Sans', Helvetica, Arial, sans-serif; }
   .tdots { display: flex; gap: 4px; align-items: center; height: 20px; }
-  .tdots span { width: 5px; height: 5px; border-radius: 50%; background: #000000; animation: bl 1.2s infinite; }
+  .tdots span { width: 5px; height: 5px; border-radius: 50%; background: #000; animation: bl 1.2s infinite; }
   .tdots span:nth-child(2) { animation-delay: 0.2s; }
   .tdots span:nth-child(3) { animation-delay: 0.4s; }
   @keyframes bl { 0%,100%{opacity:0.2;transform:scale(0.8)} 50%{opacity:1;transform:scale(1)} }
@@ -51,14 +51,14 @@
   <div class="hdr">
     <img class="av" src="/chatface.png">
     <div>
-      <div class="hdr-nm">Audrey Neale</div>
+      <div class="hdr-nm">Audrey Neale ✦</div>
       <div class="hdr-sb">Brand &amp; Content Lead — Payworks candidate</div>
     </div>
     <div class="online"><div class="dot"></div>available</div>
   </div>
   <div class="msgs" id="msgs">
     <div class="msg audrey">
-      <img class="mav a" src="/chatface.png">
+      <img class="mav" src="/chatface.png">
       <div class="bub"><p>Hi! I built this so you could skip the formalities and just ask me what you actually want to know.</p><p>What would you like to know?</p></div>
     </div>
   </div>
@@ -83,14 +83,14 @@ let hist=[], busy=false;
 function rsz(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
 function kd(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}}
 function pick(btn){document.getElementById('inp').value=btn.textContent;document.getElementById('sugs').style.display='none';go();}
-function addMsg(role, text, suggestions=[]){
+function addMsg(role,text,suggestions=[]){
   const c=document.getElementById('msgs');
   const w=document.createElement('div');w.className='msg '+(role==='user'?'user':'audrey');
   let a;
   if(role==='user'){
     a=document.createElement('div');a.className='mav u';a.textContent='you';
   } else {
-    a=document.createElement('img');a.className='mav a';a.src='/chatface.png';
+    a=document.createElement('img');a.className='mav';a.src='/chatface.png';
   }
   const b=document.createElement('div');b.className='bub';
   if(role==='assistant'){
@@ -99,24 +99,21 @@ function addMsg(role, text, suggestions=[]){
     b.textContent=text;
   }
   w.appendChild(a);w.appendChild(b);c.appendChild(w);
-
-  // Add suggestions outside the bubble
-  if(role==='assistant' && suggestions.length){
+  if(role==='assistant'&&suggestions.length){
     const sd=document.createElement('div');sd.className='inline-sugs';
     suggestions.forEach(s=>{
       const btn=document.createElement('button');btn.className='inline-sug';btn.textContent=s;
-      btn.onclick=()=>{ document.getElementById('inp').value=s; go(); };
+      btn.onclick=()=>{document.getElementById('inp').value=s;go();};
       sd.appendChild(btn);
     });
     c.appendChild(sd);
   }
-
   c.scrollTop=c.scrollHeight;
 }
 function showTyping(){
   const c=document.getElementById('msgs');
   const w=document.createElement('div');w.className='msg audrey';w.id='typ';
-  const a=document.createElement('img');a.className='mav a';a.src='/chatface.png';
+  const a=document.createElement('img');a.className='mav';a.src='/chatface.png';
   const b=document.createElement('div');b.className='bub';
   b.innerHTML='<div class="tdots"><span></span><span></span><span></span></div>';
   w.appendChild(a);w.appendChild(b);c.appendChild(w);c.scrollTop=c.scrollHeight;
